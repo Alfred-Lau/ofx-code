@@ -2,7 +2,7 @@
 
 ## OVERVIEW
 
-CLI for oh-my-opencode: interactive installer, health diagnostics (doctor), runtime launcher. Entry: `bunx oh-my-opencode`.
+CLI for ofx-code: interactive installer, health diagnostics (doctor), runtime launcher. Entry: `bunx ofx-code`.
 
 ## STRUCTURE
 

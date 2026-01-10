@@ -16,13 +16,13 @@ const VERSION = packageJson.version
 const program = new Command()
 
 program
-  .name("oh-my-opencode")
+  .name("ofx-code")
   .description("The ultimate OpenCode plugin - multi-model orchestration, LSP tools, and more")
   .version(VERSION, "-v, --version", "Show version number")
 
 program
   .command("install")
-  .description("Install and configure oh-my-opencode with interactive setup")
+  .description("Install and configure ofx-code with interactive setup")
   .option("--no-tui", "Run in non-interactive mode (requires all options)")
   .option("--claude <value>", "Claude subscription: no, yes, max20")
   .option("--chatgpt <value>", "ChatGPT subscription: no, yes")
@@ -30,9 +30,9 @@ program
   .option("--skip-auth", "Skip authentication setup hints")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode install
-  $ bunx oh-my-opencode install --no-tui --claude=max20 --chatgpt=yes --gemini=yes
-  $ bunx oh-my-opencode install --no-tui --claude=no --chatgpt=no --gemini=no
+  $ bunx ofx-code install
+  $ bunx ofx-code install --no-tui --claude=max20 --chatgpt=yes --gemini=yes
+  $ bunx ofx-code install --no-tui --claude=no --chatgpt=no --gemini=no
 
 Model Providers:
   Claude      Required for Sisyphus (main orchestrator) and Librarian agents
@@ -59,9 +59,9 @@ program
   .option("-t, --timeout <ms>", "Timeout in milliseconds (default: 30 minutes)", parseInt)
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode run "Fix the bug in index.ts"
-  $ bunx oh-my-opencode run --agent Sisyphus "Implement feature X"
-  $ bunx oh-my-opencode run --timeout 3600000 "Large refactoring task"
+  $ bunx ofx-code run "Fix the bug in index.ts"
+  $ bunx ofx-code run --agent Sisyphus "Implement feature X"
+  $ bunx ofx-code run --timeout 3600000 "Large refactoring task"
 
 Unlike 'opencode run', this command waits until:
   - All todos are completed or cancelled
@@ -85,9 +85,9 @@ program
   .option("--json", "Output in JSON format for scripting")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode get-local-version
-  $ bunx oh-my-opencode get-local-version --json
-  $ bunx oh-my-opencode get-local-version --directory /path/to/project
+  $ bunx ofx-code get-local-version
+  $ bunx ofx-code get-local-version --json
+  $ bunx ofx-code get-local-version --directory /path/to/project
 
 This command shows:
   - Current installed version
@@ -106,16 +106,16 @@ This command shows:
 
 program
   .command("doctor")
-  .description("Check oh-my-opencode installation health and diagnose issues")
+  .description("Check ofx-code installation health and diagnose issues")
   .option("--verbose", "Show detailed diagnostic information")
   .option("--json", "Output results in JSON format")
   .option("--category <category>", "Run only specific category")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode doctor
-  $ bunx oh-my-opencode doctor --verbose
-  $ bunx oh-my-opencode doctor --json
-  $ bunx oh-my-opencode doctor --category authentication
+  $ bunx ofx-code doctor
+  $ bunx ofx-code doctor --verbose
+  $ bunx ofx-code doctor --json
+  $ bunx ofx-code doctor --category authentication
 
 Categories:
   installation     Check OpenCode and plugin installation
@@ -144,7 +144,7 @@ authCommand
   .description("List all Google Antigravity accounts")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode auth list
+  $ bunx ofx-code auth list
 
 Shows:
   - Account index and email
@@ -162,8 +162,8 @@ authCommand
   .description("Remove an account by index or email")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode auth remove 0
-  $ bunx oh-my-opencode auth remove user@example.com
+  $ bunx ofx-code auth remove 0
+  $ bunx ofx-code auth remove user@example.com
 
 Note:
   - Use 'auth list' to see account indices
@@ -178,7 +178,7 @@ program
   .command("version")
   .description("Show version information")
   .action(() => {
-    console.log(`oh-my-opencode v${VERSION}`)
+    console.log(`ofx-code v${VERSION}`)
   })
 
 program.parse()

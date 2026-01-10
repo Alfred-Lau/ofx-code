@@ -11,7 +11,7 @@
  * ```json
  * // opencode.json
  * {
- *   "plugin": ["oh-my-opencode"],
+ *   "plugin": ["ofx-code"],
  *   "provider": {
  *     "google": {
  *       "options": {

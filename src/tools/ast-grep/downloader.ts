@@ -39,12 +39,12 @@ export function getCacheDir(): string {
   if (process.platform === "win32") {
     const localAppData = process.env.LOCALAPPDATA || process.env.APPDATA
     const base = localAppData || join(homedir(), "AppData", "Local")
-    return join(base, "oh-my-opencode", "bin")
+    return join(base, "ofx-code", "bin")
   }
 
   const xdgCache = process.env.XDG_CACHE_HOME
   const base = xdgCache || join(homedir(), ".cache")
-  return join(base, "oh-my-opencode", "bin")
+  return join(base, "ofx-code", "bin")
 }
 
 export function getBinaryName(): string {
@@ -86,7 +86,7 @@ export async function downloadAstGrep(version: string = DEFAULT_VERSION): Promis
   const platformInfo = PLATFORM_MAP[platformKey]
 
   if (!platformInfo) {
-    console.error(`[oh-my-opencode] Unsupported platform for ast-grep: ${platformKey}`)
+    console.error(`[ofx-code] Unsupported platform for ast-grep: ${platformKey}`)
     return null
   }
 
@@ -102,7 +102,7 @@ export async function downloadAstGrep(version: string = DEFAULT_VERSION): Promis
   const assetName = `app-${arch}-${os}.zip`
   const downloadUrl = `https://github.com/${REPO}/releases/download/${version}/${assetName}`
 
-  console.log(`[oh-my-opencode] Downloading ast-grep binary...`)
+  console.log(`[ofx-code] Downloading ast-grep binary...`)
 
   try {
     if (!existsSync(cacheDir)) {
@@ -129,12 +129,12 @@ export async function downloadAstGrep(version: string = DEFAULT_VERSION): Promis
       chmodSync(binaryPath, 0o755)
     }
 
-    console.log(`[oh-my-opencode] ast-grep binary ready.`)
+    console.log(`[ofx-code] ast-grep binary ready.`)
 
     return binaryPath
   } catch (err) {
     console.error(
-      `[oh-my-opencode] Failed to download ast-grep: ${err instanceof Error ? err.message : err}`
+      `[ofx-code] Failed to download ast-grep: ${err instanceof Error ? err.message : err}`
     )
     return null
   }

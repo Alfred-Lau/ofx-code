@@ -1,21 +1,39 @@
-import type { AgentConfig } from "@opencode-ai/sdk"
-import type { BuiltinAgentName, AgentOverrideConfig, AgentOverrides, AgentFactory, AgentPromptMetadata } from "./types"
-import { createSisyphusAgent } from "./sisyphus"
-import { createOracleAgent, ORACLE_PROMPT_METADATA } from "./oracle"
-import { createLibrarianAgent, LIBRARIAN_PROMPT_METADATA } from "./librarian"
-import { createExploreAgent, EXPLORE_PROMPT_METADATA } from "./explore"
-import { createFrontendUiUxEngineerAgent, FRONTEND_PROMPT_METADATA } from "./frontend-ui-ux-engineer"
-import { createDocumentWriterAgent, DOCUMENT_WRITER_PROMPT_METADATA } from "./document-writer"
-import { createMultimodalLookerAgent, MULTIMODAL_LOOKER_PROMPT_METADATA } from "./multimodal-looker"
-import { metisAgent } from "./metis"
-import { createOrchestratorSisyphusAgent, orchestratorSisyphusAgent } from "./orchestrator-sisyphus"
-import { momusAgent } from "./momus"
-import type { AvailableAgent } from "./sisyphus-prompt-builder"
-import { deepMerge } from "../shared"
-import { DEFAULT_CATEGORIES } from "../tools/sisyphus-task/constants"
-import { resolveMultipleSkills } from "../features/opencode-skill-loader/skill-content"
+import type { AgentConfig } from "@opencode-ai/sdk";
+import type {
+  BuiltinAgentName,
+  AgentOverrideConfig,
+  AgentOverrides,
+  AgentFactory,
+  AgentPromptMetadata,
+} from "./types";
+import { createSisyphusAgent } from "./sisyphus";
+import { createOracleAgent, ORACLE_PROMPT_METADATA } from "./oracle";
+import { createLibrarianAgent, LIBRARIAN_PROMPT_METADATA } from "./librarian";
+import { createExploreAgent, EXPLORE_PROMPT_METADATA } from "./explore";
+import {
+  createFrontendUiUxEngineerAgent,
+  FRONTEND_PROMPT_METADATA,
+} from "./frontend-ui-ux-engineer";
+import {
+  createDocumentWriterAgent,
+  DOCUMENT_WRITER_PROMPT_METADATA,
+} from "./document-writer";
+import {
+  createMultimodalLookerAgent,
+  MULTIMODAL_LOOKER_PROMPT_METADATA,
+} from "./multimodal-looker";
+import { metisAgent } from "./metis";
+import {
+  createOrchestratorSisyphusAgent,
+  orchestratorSisyphusAgent,
+} from "./orchestrator-sisyphus";
+import { momusAgent } from "./momus";
+import type { AvailableAgent } from "./sisyphus-prompt-builder";
+import { deepMerge } from "../shared";
+import { DEFAULT_CATEGORIES } from "../tools/sisyphus-task/constants";
+import { resolveMultipleSkills } from "../features/opencode-skill-loader/skill-content";
 
-type AgentSource = AgentFactory | AgentConfig
+type AgentSource = AgentFactory | AgentConfig;
 
 const agentSources: Record<BuiltinAgentName, AgentSource> = {
   Sisyphus: createSisyphusAgent,
@@ -28,7 +46,7 @@ const agentSources: Record<BuiltinAgentName, AgentSource> = {
   "Metis (Plan Consultant)": metisAgent,
   "Momus (Plan Reviewer)": momusAgent,
   "orchestrator-sisyphus": orchestratorSisyphusAgent,
-}
+};
 
 /**
  * Metadata for each agent, used to build Sisyphus's dynamic prompt sections
@@ -41,77 +59,83 @@ const agentMetadata: Partial<Record<BuiltinAgentName, AgentPromptMetadata>> = {
   "frontend-ui-ux-engineer": FRONTEND_PROMPT_METADATA,
   "document-writer": DOCUMENT_WRITER_PROMPT_METADATA,
   "multimodal-looker": MULTIMODAL_LOOKER_PROMPT_METADATA,
-}
+};
 
 function isFactory(source: AgentSource): source is AgentFactory {
-  return typeof source === "function"
+  return typeof source === "function";
 }
 
 export function buildAgent(source: AgentSource, model?: string): AgentConfig {
-  const base = isFactory(source) ? source(model) : source
+  const base = isFactory(source) ? source(model) : source;
 
-  const agentWithCategory = base as AgentConfig & { category?: string; skills?: string[] }
+  const agentWithCategory = base as AgentConfig & {
+    category?: string;
+    skills?: string[];
+  };
   if (agentWithCategory.category) {
-    const categoryConfig = DEFAULT_CATEGORIES[agentWithCategory.category]
+    const categoryConfig = DEFAULT_CATEGORIES[agentWithCategory.category];
     if (categoryConfig) {
       if (!base.model) {
-        base.model = categoryConfig.model
+        base.model = categoryConfig.model;
       }
-      if (base.temperature === undefined && categoryConfig.temperature !== undefined) {
-        base.temperature = categoryConfig.temperature
+      if (
+        base.temperature === undefined &&
+        categoryConfig.temperature !== undefined
+      ) {
+        base.temperature = categoryConfig.temperature;
       }
     }
   }
 
   if (agentWithCategory.skills?.length) {
-    const { resolved } = resolveMultipleSkills(agentWithCategory.skills)
+    const { resolved } = resolveMultipleSkills(agentWithCategory.skills);
     if (resolved.size > 0) {
-      const skillContent = Array.from(resolved.values()).join("\n\n")
-      base.prompt = skillContent + (base.prompt ? "\n\n" + base.prompt : "")
+      const skillContent = Array.from(resolved.values()).join("\n\n");
+      base.prompt = skillContent + (base.prompt ? "\n\n" + base.prompt : "");
     }
   }
 
-  return base
+  return base;
 }
 
 /**
  * Creates OmO-specific environment context (time, timezone, locale).
  * Note: Working directory, platform, and date are already provided by OpenCode's system.ts,
  * so we only include fields that OpenCode doesn't provide to avoid duplication.
- * See: https://github.com/code-yeongyu/oh-my-opencode/issues/379
+ * See: https://github.com/Alfred-Lau/ofx-code/issues/379
  */
 export function createEnvContext(): string {
-  const now = new Date()
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-  const locale = Intl.DateTimeFormat().resolvedOptions().locale
+  const now = new Date();
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const locale = Intl.DateTimeFormat().resolvedOptions().locale;
 
   const timeStr = now.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
     hour12: true,
-  })
+  });
 
   return `
 <omo-env>
   Current time: ${timeStr}
   Timezone: ${timezone}
   Locale: ${locale}
-</omo-env>`
+</omo-env>`;
 }
 
 function mergeAgentConfig(
   base: AgentConfig,
   override: AgentOverrideConfig
 ): AgentConfig {
-  const { prompt_append, ...rest } = override
-  const merged = deepMerge(base, rest as Partial<AgentConfig>)
+  const { prompt_append, ...rest } = override;
+  const merged = deepMerge(base, rest as Partial<AgentConfig>);
 
   if (prompt_append && merged.prompt) {
-    merged.prompt = merged.prompt + "\n" + prompt_append
+    merged.prompt = merged.prompt + "\n" + prompt_append;
   }
 
-  return merged
+  return merged;
 }
 
 export function createBuiltinAgents(
@@ -120,70 +144,78 @@ export function createBuiltinAgents(
   directory?: string,
   systemDefaultModel?: string
 ): Record<string, AgentConfig> {
-  const result: Record<string, AgentConfig> = {}
-  const availableAgents: AvailableAgent[] = []
+  const result: Record<string, AgentConfig> = {};
+  const availableAgents: AvailableAgent[] = [];
 
   for (const [name, source] of Object.entries(agentSources)) {
-    const agentName = name as BuiltinAgentName
+    const agentName = name as BuiltinAgentName;
 
-    if (agentName === "Sisyphus") continue
-    if (agentName === "orchestrator-sisyphus") continue
-    if (disabledAgents.includes(agentName)) continue
+    if (agentName === "Sisyphus") continue;
+    if (agentName === "orchestrator-sisyphus") continue;
+    if (disabledAgents.includes(agentName)) continue;
 
-    const override = agentOverrides[agentName]
-    const model = override?.model
+    const override = agentOverrides[agentName];
+    const model = override?.model;
 
-    let config = buildAgent(source, model)
+    let config = buildAgent(source, model);
 
     if (agentName === "librarian" && directory && config.prompt) {
-      const envContext = createEnvContext()
-      config = { ...config, prompt: config.prompt + envContext }
+      const envContext = createEnvContext();
+      config = { ...config, prompt: config.prompt + envContext };
     }
 
     if (override) {
-      config = mergeAgentConfig(config, override)
+      config = mergeAgentConfig(config, override);
     }
 
-    result[name] = config
+    result[name] = config;
 
-    const metadata = agentMetadata[agentName]
+    const metadata = agentMetadata[agentName];
     if (metadata) {
       availableAgents.push({
         name: agentName,
         description: config.description ?? "",
         metadata,
-      })
+      });
     }
   }
 
   if (!disabledAgents.includes("Sisyphus")) {
-    const sisyphusOverride = agentOverrides["Sisyphus"]
-    const sisyphusModel = sisyphusOverride?.model ?? systemDefaultModel
+    const sisyphusOverride = agentOverrides["Sisyphus"];
+    const sisyphusModel = sisyphusOverride?.model ?? systemDefaultModel;
 
-    let sisyphusConfig = createSisyphusAgent(sisyphusModel, availableAgents)
+    let sisyphusConfig = createSisyphusAgent(sisyphusModel, availableAgents);
 
     if (directory && sisyphusConfig.prompt) {
-      const envContext = createEnvContext()
-      sisyphusConfig = { ...sisyphusConfig, prompt: sisyphusConfig.prompt + envContext }
+      const envContext = createEnvContext();
+      sisyphusConfig = {
+        ...sisyphusConfig,
+        prompt: sisyphusConfig.prompt + envContext,
+      };
     }
 
     if (sisyphusOverride) {
-      sisyphusConfig = mergeAgentConfig(sisyphusConfig, sisyphusOverride)
+      sisyphusConfig = mergeAgentConfig(sisyphusConfig, sisyphusOverride);
     }
 
-    result["Sisyphus"] = sisyphusConfig
+    result["Sisyphus"] = sisyphusConfig;
   }
 
   if (!disabledAgents.includes("orchestrator-sisyphus")) {
-    const orchestratorOverride = agentOverrides["orchestrator-sisyphus"]
-    let orchestratorConfig = createOrchestratorSisyphusAgent({ availableAgents })
+    const orchestratorOverride = agentOverrides["orchestrator-sisyphus"];
+    let orchestratorConfig = createOrchestratorSisyphusAgent({
+      availableAgents,
+    });
 
     if (orchestratorOverride) {
-      orchestratorConfig = mergeAgentConfig(orchestratorConfig, orchestratorOverride)
+      orchestratorConfig = mergeAgentConfig(
+        orchestratorConfig,
+        orchestratorOverride
+      );
     }
 
-    result["orchestrator-sisyphus"] = orchestratorConfig
+    result["orchestrator-sisyphus"] = orchestratorConfig;
   }
 
-  return result
+  return result;
 }

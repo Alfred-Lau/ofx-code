@@ -46,7 +46,7 @@ export async function run(options: RunOptions): Promise<number> {
 
     try {
       const sessionRes = await client.session.create({
-        body: { title: "oh-my-opencode run" },
+        body: { title: "ofx-code run" },
       })
 
       const sessionID = sessionRes.data?.id

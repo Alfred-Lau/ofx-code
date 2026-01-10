@@ -61,7 +61,7 @@ export function createDirectoryAgentsInjectorHook(ctx: PluginInput) {
 
     while (true) {
       // Skip root AGENTS.md - OpenCode's system.ts already loads it via custom()
-      // See: https://github.com/code-yeongyu/oh-my-opencode/issues/379
+      // See: https://github.com/Alfred-Lau/ofx-code/issues/379
       const isRootDir = current === ctx.directory;
       if (!isRootDir) {
         const agentsPath = join(current, AGENTS_FILENAME);
@@ -83,7 +83,7 @@ export function createDirectoryAgentsInjectorHook(ctx: PluginInput) {
   async function processFilePathForInjection(
     filePath: string,
     sessionID: string,
-    output: ToolExecuteOutput,
+    output: ToolExecuteOutput
   ): Promise<void> {
     const resolved = resolveFilePath(filePath);
     if (!resolved) return;
@@ -98,7 +98,10 @@ export function createDirectoryAgentsInjectorHook(ctx: PluginInput) {
 
       try {
         const content = readFileSync(agentsPath, "utf-8");
-        const { result, truncated } = await truncator.truncate(sessionID, content);
+        const { result, truncated } = await truncator.truncate(
+          sessionID,
+          content
+        );
         const truncationNotice = truncated
           ? `\n\n[Note: Content was truncated to save context window space. For full context, please read the file directly: ${agentsPath}]`
           : "";
@@ -112,7 +115,7 @@ export function createDirectoryAgentsInjectorHook(ctx: PluginInput) {
 
   const toolExecuteBefore = async (
     input: ToolExecuteInput,
-    output: ToolExecuteBeforeOutput,
+    output: ToolExecuteBeforeOutput
   ) => {
     if (input.tool.toLowerCase() !== "batch") return;
 
@@ -133,7 +136,7 @@ export function createDirectoryAgentsInjectorHook(ctx: PluginInput) {
 
   const toolExecuteAfter = async (
     input: ToolExecuteInput,
-    output: ToolExecuteOutput,
+    output: ToolExecuteOutput
   ) => {
     const toolName = input.tool.toLowerCase();
 

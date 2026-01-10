@@ -8,7 +8,7 @@ export function getDataDir(): string {
 }
 
 export function getStoragePath(): string {
-  return join(getDataDir(), "oh-my-opencode-accounts.json")
+  return join(getDataDir(), "ofx-code-accounts.json")
 }
 
 export async function loadAccounts(path?: string): Promise<AccountStorage | null> {

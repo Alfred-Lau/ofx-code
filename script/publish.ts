@@ -2,11 +2,11 @@
 
 import { $ } from "bun"
 
-const PACKAGE_NAME = "oh-my-opencode"
+const PACKAGE_NAME = "ofx-code"
 const bump = process.env.BUMP as "major" | "minor" | "patch" | undefined
 const versionOverride = process.env.VERSION
 
-console.log("=== Publishing oh-my-opencode ===\n")
+console.log("=== Publishing ofx-code ===\n")
 
 async function fetchPreviousVersion(): Promise<string> {
   try {
@@ -72,7 +72,7 @@ async function getContributors(previous: string): Promise<string[]> {
 
   try {
     const compare =
-      await $`gh api "/repos/code-yeongyu/oh-my-opencode/compare/v${previous}...HEAD" --jq '.commits[] | {login: .author.login, message: .commit.message}'`.text()
+      await $`gh api "/repos/Alfred-Lau/ofx-code/compare/v${previous}...HEAD" --jq '.commits[] | {login: .author.login, message: .commit.message}'`.text()
     const contributors = new Map<string, string[]>()
 
     for (const line of compare.split("\n").filter(Boolean)) {
@@ -122,7 +122,7 @@ async function gitTagAndRelease(newVersion: string, notes: string[]): Promise<vo
   console.log("\nCommitting and tagging...")
   await $`git config user.email "github-actions[bot]@users.noreply.github.com"`
   await $`git config user.name "github-actions[bot]"`
-  await $`git add package.json assets/oh-my-opencode.schema.json`
+  await $`git add package.json assets/ofx-code.schema.json`
 
   const hasStagedChanges = await $`git diff --cached --quiet`.nothrow()
   if (hasStagedChanges.exitCode !== 0) {

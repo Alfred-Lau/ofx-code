@@ -7,8 +7,8 @@ import type { AccountStorage } from "./types"
 import { getDataDir, getStoragePath, loadAccounts, saveAccounts } from "./storage"
 
 describe("storage", () => {
-  const testDir = join(tmpdir(), `oh-my-opencode-storage-test-${Date.now()}`)
-  const testStoragePath = join(testDir, "oh-my-opencode-accounts.json")
+  const testDir = join(tmpdir(), `ofx-code-storage-test-${Date.now()}`)
+  const testStoragePath = join(testDir, "ofx-code-accounts.json")
 
   const validStorage: AccountStorage = {
     version: 1,
@@ -104,7 +104,7 @@ describe("storage", () => {
   })
 
   describe("getStoragePath", () => {
-    it("returns path ending with oh-my-opencode-accounts.json", () => {
+    it("returns path ending with ofx-code-accounts.json", () => {
       // #given
       // no setup needed
 
@@ -112,7 +112,7 @@ describe("storage", () => {
       const result = getStoragePath()
 
       // #then
-      expect(result.endsWith("oh-my-opencode-accounts.json")).toBe(true)
+      expect(result.endsWith("ofx-code-accounts.json")).toBe(true)
       expect(result).toContain("opencode")
     })
   })
@@ -218,7 +218,7 @@ describe("storage", () => {
 
     it("creates parent directories if they do not exist", async () => {
       // #given
-      const nestedPath = join(testDir, "nested", "deep", "oh-my-opencode-accounts.json")
+      const nestedPath = join(testDir, "nested", "deep", "ofx-code-accounts.json")
 
       // #when
       await saveAccounts(validStorage, nestedPath)

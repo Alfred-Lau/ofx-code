@@ -1,8 +1,9 @@
-import type { BuiltinSkill } from "./types"
+import type { BuiltinSkill } from "./types";
 
 const playwrightSkill: BuiltinSkill = {
   name: "playwright",
-  description: "MUST USE for any browser-related tasks. Browser automation via Playwright MCP - verification, browsing, information gathering, web scraping, testing, screenshots, and all browser interactions.",
+  description:
+    "MUST USE for any browser-related tasks. Browser automation via Playwright MCP - verification, browsing, information gathering, web scraping, testing, screenshots, and all browser interactions.",
   template: `# Playwright Browser Automation
 
 This skill provides browser automation capabilities via the Playwright MCP server.`,
@@ -12,11 +13,12 @@ This skill provides browser automation capabilities via the Playwright MCP serve
       args: ["@playwright/mcp@latest"],
     },
   },
-}
+};
 
 const frontendUiUxSkill: BuiltinSkill = {
   name: "frontend-ui-ux",
-  description: "Designer-turned-developer who crafts stunning UI/UX even without design mockups",
+  description:
+    "Designer-turned-developer who crafts stunning UI/UX even without design mockups",
   template: `# Role: Designer-Turned-Developer
 
 You are a designer who learned to code. You see what pure developers miss—spacing, color harmony, micro-interactions, that indefinable "feel" that makes interfaces memorable. Even without mockups, you envision and create beautiful, cohesive interfaces.
@@ -90,7 +92,7 @@ Match implementation complexity to aesthetic vision:
 - **Minimalist** → Restraint, precision, careful spacing and typography
 
 Interpret creatively and make unexpected choices that feel genuinely designed for the context. No design should be the same. Vary between light and dark themes, different fonts, different aesthetics. You are capable of extraordinary creative work—don't hold back.`,
-}
+};
 
 const gitMasterSkill: BuiltinSkill = {
   name: "git-master",
@@ -625,7 +627,7 @@ If ANY check fails -> REWRITE message.
 
 ### 5.5 Commit Footer & Co-Author (Configurable)
 
-**Check oh-my-opencode.json for these flags:**
+**Check ofx-code.json for these flags:**
 - \`git_master.commit_footer\` (default: true) - adds footer message
 - \`git_master.include_co_authored_by\` (default: true) - adds co-author trailer
 
@@ -633,7 +635,7 @@ If enabled, add Sisyphus attribution to EVERY commit:
 
 1. **Footer in commit body (if \`commit_footer: true\`):**
 \`\`\`
-Ultraworked with [Sisyphus](https://github.com/code-yeongyu/oh-my-opencode)
+Ultraworked with [Sisyphus](https://github.com/Alfred-Lau/ofx-code)
 \`\`\`
 
 2. **Co-authored-by trailer (if \`include_co_authored_by: true\`):**
@@ -643,10 +645,10 @@ Co-authored-by: Sisyphus <clio-agent@sisyphuslabs.ai>
 
 **Example (both enabled):**
 \`\`\`bash
-git commit -m "{Commit Message}" -m "Ultraworked with [Sisyphus](https://github.com/code-yeongyu/oh-my-opencode)" -m "Co-authored-by: Sisyphus <clio-agent@sisyphuslabs.ai>"
+git commit -m "{Commit Message}" -m "Ultraworked with [Sisyphus](https://github.com/Alfred-Lau/ofx-code)" -m "Co-authored-by: Sisyphus <clio-agent@sisyphuslabs.ai>"
 \`\`\`
 
-**To disable:** Set in oh-my-opencode.json:
+**To disable:** Set in ofx-code.json:
 \`\`\`json
 { "git_master": { "commit_footer": false, "include_co_authored_by": false } }
 \`\`\`
@@ -1223,8 +1225,8 @@ POTENTIAL ACTIONS:
 - \`-S\` when \`-G\` is appropriate -> Wrong results
 - Blame without \`-C\` on moved code -> Wrong attribution
 - Bisect without proper good/bad boundaries -> Wasted time`,
-}
+};
 
 export function createBuiltinSkills(): BuiltinSkill[] {
-  return [playwrightSkill, frontendUiUxSkill, gitMasterSkill]
+  return [playwrightSkill, frontendUiUxSkill, gitMasterSkill];
 }
