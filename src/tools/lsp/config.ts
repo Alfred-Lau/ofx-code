@@ -35,8 +35,8 @@ function loadJsonFile<T>(path: string): T | null {
 function getConfigPaths(): { project: string; user: string; opencode: string } {
   const cwd = process.cwd()
   return {
-    project: join(cwd, ".opencode", "oh-my-opencode.json"),
-    user: join(homedir(), ".config", "opencode", "oh-my-opencode.json"),
+    project: join(cwd, ".opencode", "ofx-code.json"),
+    user: join(homedir(), ".config", "opencode", "ofx-code.json"),
     opencode: join(homedir(), ".config", "opencode", "opencode.json"),
   }
 }
@@ -198,7 +198,7 @@ export function isServerInstalled(command: string[]): boolean {
     }
   }
 
-  // Runtime wrappers (bun/node) are always available in oh-my-opencode context
+  // Runtime wrappers (bun/node) are always available in ofx-code context
   if (cmd === "bun" || cmd === "node") {
     return true
   }

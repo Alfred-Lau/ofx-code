@@ -44,9 +44,17 @@ tools/
 3. Export via `index.ts` and register in `src/tools/index.ts`.
 
 ## LSP SPECIFICS
+<<<<<<< HEAD
 - **Lifecycle**: Lazy initialization on first call; auto-shutdown on idle.
 - **Config**: Merges `opencode.json` and `oh-my-opencode.json`.
 - **Capability**: Supports full LSP spec including `codeAction/resolve` and `prepareRename`.
+=======
+
+- **Client lifecycle**: Lazy init on first use, auto-shutdown on idle
+- **Config priority**: opencode.json > ofx-code.json > defaults
+- **Supported servers**: typescript-language-server, pylsp, gopls, rust-analyzer, etc.
+- **Custom servers**: Add via `lsp` config in ofx-code.json
+>>>>>>> feat/project-ainise
 
 ## AST-GREP SPECIFICS
 - **Precision**: Uses tree-sitter for structural matching (avoids regex pitfalls).

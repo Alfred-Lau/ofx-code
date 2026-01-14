@@ -98,7 +98,7 @@ export function loadPluginConfig(
   const userBasePath = path.join(
     getUserConfigDir(),
     "opencode",
-    "oh-my-opencode"
+    "ofx-code"
   );
   const userDetected = detectConfigFile(userBasePath);
   const userConfigPath =
@@ -107,7 +107,7 @@ export function loadPluginConfig(
       : userBasePath + ".json";
 
   // Project-level config path - prefer .jsonc over .json
-  const projectBasePath = path.join(directory, ".opencode", "oh-my-opencode");
+  const projectBasePath = path.join(directory, ".opencode", "ofx-code");
   const projectDetected = detectConfigFile(projectBasePath);
   const projectConfigPath =
     projectDetected.format !== "none"

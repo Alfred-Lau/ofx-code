@@ -61,7 +61,7 @@ describe("plugin check", () => {
       getInfoSpy = spyOn(plugin, "getPluginInfo").mockReturnValue({
         registered: true,
         configPath: "/home/user/.config/opencode/opencode.json",
-        entry: "oh-my-opencode",
+        entry: "ofx-code",
         isPinned: false,
         pinnedVersion: null,
       })
@@ -79,7 +79,7 @@ describe("plugin check", () => {
       getInfoSpy = spyOn(plugin, "getPluginInfo").mockReturnValue({
         registered: true,
         configPath: "/home/user/.config/opencode/opencode.json",
-        entry: "oh-my-opencode@2.7.0",
+        entry: "ofx-code@2.7.0",
         isPinned: true,
         pinnedVersion: "2.7.0",
       })

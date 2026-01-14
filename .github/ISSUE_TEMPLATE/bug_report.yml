@@ -1,12 +1,12 @@
 name: Bug Report
-description: Report a bug or unexpected behavior in oh-my-opencode
+description: Report a bug or unexpected behavior in ofx-code
 title: "[Bug]: "
 labels: ["bug", "needs-triage"]
 body:
   - type: markdown
     attributes:
       value: |
-        **Please write your issue in English.** See our [Language Policy](https://github.com/code-yeongyu/oh-my-opencode/blob/dev/CONTRIBUTING.md#language-policy) for details.
+        **Please write your issue in English.** See our [Language Policy](https://github.com/Alfred-Lau/ofx-code/blob/dev/CONTRIBUTING.md#language-policy) for details.
 
   - type: checkboxes
     id: prerequisites
@@ -16,9 +16,9 @@ body:
       options:
         - label: I have searched existing issues to avoid duplicates
           required: true
-        - label: I am using the latest version of oh-my-opencode
+        - label: I am using the latest version of ofx-code
           required: true
-        - label: I have read the [documentation](https://github.com/code-yeongyu/oh-my-opencode#readme)
+        - label: I have read the [documentation](https://github.com/Alfred-Lau/ofx-code#readme)
           required: true
 
   - type: textarea
@@ -36,7 +36,7 @@ body:
       label: Steps to Reproduce
       description: Steps to reproduce the behavior
       placeholder: |
-        1. Configure oh-my-opencode with...
+        1. Configure ofx-code with...
         2. Run command '...'
         3. See error...
     validations:
@@ -65,14 +65,14 @@ body:
     attributes:
       label: Doctor Output
       description: |
-        **Required:** Run `bunx oh-my-opencode doctor` and paste the full output below.
+        **Required:** Run `bunx ofx-code doctor` and paste the full output below.
         This helps us diagnose your environment and configuration.
       placeholder: |
-        Paste the output of: bunx oh-my-opencode doctor
+        Paste the output of: bunx ofx-code doctor
         
         Example:
         ✓ OpenCode version: 1.0.150
-        ✓ oh-my-opencode version: 1.2.3
+        ✓ ofx-code version: 1.2.3
         ✓ Plugin loaded successfully
         ...
       render: shell
@@ -91,7 +91,7 @@ body:
     id: config
     attributes:
       label: Configuration
-      description: If relevant, share your oh-my-opencode configuration (remove sensitive data)
+      description: If relevant, share your ofx-code configuration (remove sensitive data)
       placeholder: |
         {
           "agents": { ... },
